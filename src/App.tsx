@@ -1,5 +1,5 @@
 import './App.css'
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import axios from "axios";
 
 class GifModel {
@@ -53,14 +53,23 @@ const GifService = {
   }
 }
 
+const DEBOUNCE_LIMIT = 250;
+
 function App() {
   const { data, isLoading, searchGif } = useGif();
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
+  useEffect(() => {
+    const timeout = setTimeout(() => searchGif(searchTerm), DEBOUNCE_LIMIT);
+
+    return () => clearTimeout(timeout);
+  }, [searchTerm]);
 
   return (
     <div className="app">
       <main>
         <div className="search-container">
-          <input placeholder='Search gifs' type="text" onChange={(e) => searchGif(e.target.value)}/>
+          <input placeholder='Search gifs' type="text" onChange={(e) => setSearchTerm(e.target.value)}/>
         </div>
 
         <div id='gif-grid' className="grid">
