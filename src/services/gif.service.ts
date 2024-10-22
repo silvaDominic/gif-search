@@ -8,6 +8,7 @@ export const GifService = {
     const params = {
       q: searchTerm,
       api_key: API_KEY,
+      limit: 20,
     }
     return HttpService.get(GIF_BASE_ENDPOINT, { params });
   }
