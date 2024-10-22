@@ -20,7 +20,9 @@ function App() {
   return (
     <div className="app">
       <main>
-        <div className="search-container">
+        <h1>Gif Search</h1>
+
+        <div id="search-container">
           <input placeholder='Search gifs' type="text" onChange={(e) => setSearchTerm(e.target.value)}/>
         </div>
 
