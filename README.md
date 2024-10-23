@@ -1,14 +1,9 @@
 # Gif Search
 
-## Requirements
-- Implement search
-  - Results should show on each keystroke but with debounce
-- Renders grid of gifs
-  - Supports lazy load
-- Include basic details for gif (image, name, description)
-- Support loading state
-- Can use basic libraries
-- Can implement animations if time
+An applet for rendering gifs in a grid based on a search term.
 
-### API Key
-EbU2vFXMiXvjioRSNS1haC9lxoMNUJDP
+## Features
+- Search with debounce
+- Infinite scroll (with button)
+- Skeleton loading for individual images
+- Competent architecture
