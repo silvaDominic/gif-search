@@ -8,28 +8,43 @@ type useGifReturnModel = {
   isLoading: boolean,
   error: any,
   searchGif(searchTerm: string): Promise<void>;
+  loadMore(searchTerm: string): Promise<void>;
 }
 
 export function useGif() {
   const [data, setData] = useState<Array<GifModel>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
+  const [offset, setOffset] = useState<number>(0);
 
   async function searchGif(searchTerm: string): Promise<void> {
     setIsLoading(true);
     try {
-      const res = await GifService.searchGif(searchTerm);
-      setData(res.data.data.map((gifDTO: any) => mapToGifModel(gifDTO)));
+      const data = await GifService.searchGif(searchTerm);
+      setData(data.data.map((gifDTO: any) => mapToGifModel(gifDTO)));
+      setOffset(data.pagination.count);
     } catch(err: any) {
-      setError(err);
+      setError(`Error search images of ${searchTerm}`);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
+  }
+
+  async function loadMore(searchTerm: string): Promise<void> {
+    try {
+      const data = await GifService.searchGif(searchTerm, offset);
+      setOffset((prevState: number) => prevState + data.pagination.count);
+      setData((prevState: GifModel[]) => [...prevState, ...data.data.map((gifDTO: any) => mapToGifModel(gifDTO))]);
+    } catch(err: any) {
+      setError("Error loading more images.");
+    }
   }
 
   return {
     data,
     isLoading,
     error,
-    searchGif
+    searchGif,
+    loadMore,
   } as useGifReturnModel;
 }
