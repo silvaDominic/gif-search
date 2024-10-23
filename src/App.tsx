@@ -33,7 +33,6 @@ function App() {
           <input placeholder='Search gifs' type="text" onChange={(e) => setSearchTerm(e.target.value)}/>
         </div>
 
-
         {
           isLoading
             ? <div className='loader'><span></span></div>
@@ -50,7 +49,7 @@ function App() {
         }
 
         <div className='button-container'>
-          <button type='button' onClick={onLoadMore}>Load more</button>
+          {data.length > 0 && <button type='button' onClick={onLoadMore}>Load more</button>}
         </div>
       </main>
     </div>
